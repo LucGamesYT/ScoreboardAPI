@@ -1,0 +1,5 @@
+main: de.theamychan.scoreboard.ScoreboardPlugin
+name: ScoreboardPlugin
+version: 1.0
+author: Amy
+api: ["1.0.0"]
