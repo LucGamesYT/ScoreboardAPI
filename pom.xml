@@ -6,7 +6,7 @@
 
     <groupId>de.theamychan</groupId>
     <artifactId>ScoreboardAPI</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 
     <properties>
         <project.java.version>1.8</project.java.version>
@@ -31,11 +31,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.18</version>
-        </dependency>
-        <dependency>
-            <groupId>it.unimi.dsi</groupId>
-            <artifactId>fastutil</artifactId>
-            <version>7.2.0</version>
         </dependency>
     </dependencies>
 

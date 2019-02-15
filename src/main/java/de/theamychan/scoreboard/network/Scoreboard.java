@@ -6,8 +6,8 @@ import cn.nukkit.network.protocol.DataPacket;
 import de.theamychan.scoreboard.network.packet.RemoveObjectivePacket;
 import de.theamychan.scoreboard.network.packet.SetObjectivePacket;
 import de.theamychan.scoreboard.network.packet.SetScorePacket;
-import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.longs.LongList;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
@@ -24,7 +24,7 @@ public class Scoreboard {
 
     // Scores
     private long scoreIdCounter = 0;
-    private Long2ObjectMap<ScoreboardLine> scoreboardLines = new Long2ObjectArrayMap<>();
+    private Long2ObjectMap<ScoreboardLine> scoreboardLines = new Long2ObjectOpenHashMap<>();
 
     // Viewers
     private Set<Player> viewers = new HashSet<>();
