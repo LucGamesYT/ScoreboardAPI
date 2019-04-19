@@ -34,13 +34,19 @@ public class SetScorePacket extends DataPacket {
             this.putString( entry.objective );
             this.putLInt( entry.score );
 
-            this.putByte( entry.entityType );
+            if(this.type == 0){
+                this.putByte( entry.entityType );
 
-            if(entry.getEntityType() == 1 && entry.getEntityType() == 2){
-                this.putUnsignedVarLong( entry.entityId );
+                switch ( entry.entityType ) {
+                    case 3: // Fake entity
+                        this.putString( entry.fakeEntity );
+                        break;
+                    case 1:
+                    case 2:
+                        this.putUnsignedVarLong( entry.entityId );
+                        break;
+                }
 
-            } else if(entry.getEntityType() == 3){
-                this.putString( entry.fakeEntity );
             }
         }
     }
