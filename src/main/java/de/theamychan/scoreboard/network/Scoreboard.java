@@ -36,7 +36,7 @@ public class Scoreboard {
 
     public ScoreboardDisplay addDisplay( DisplaySlot slot, String objectiveName, String displayName, SortOrder sortOrder ) {
         ScoreboardDisplay scoreboardDisplay = this.displays.get( slot );
-        if ( scoreboardDisplay == null ) {
+        if( scoreboardDisplay == null ) {
             scoreboardDisplay = new ScoreboardDisplay( this, objectiveName, displayName, sortOrder );
             this.displays.put( slot, scoreboardDisplay );
 
@@ -48,7 +48,7 @@ public class Scoreboard {
 
     public void removeDisplay( DisplaySlot slot ) {
         ScoreboardDisplay display = this.displays.remove( slot );
-        if ( display != null ) {
+        if( display != null ) {
             // Remove all scores on this display
             LongList validScoreIDs = new LongArrayList();
 
@@ -57,7 +57,7 @@ public class Scoreboard {
             ObjectIterator<Long2ObjectMap.Entry<ScoreboardLine>> fastIterator = fastSet.fastIterator();
             while ( fastIterator.hasNext() ) {
                 Long2ObjectMap.Entry<ScoreboardLine> entry = fastIterator.next();
-                if ( entry.getValue().objective.equals( display.getObjectiveName() ) ) {
+                if( entry.getValue().objective.equals( display.getObjectiveName() ) ) {
                     validScoreIDs.add( entry.getLongKey() );
                 }
             }
@@ -96,7 +96,7 @@ public class Scoreboard {
         ObjectIterator<Long2ObjectMap.Entry<ScoreboardLine>> fastIterator = fastEntrySet.fastIterator();
         while ( fastIterator.hasNext() ) {
             Long2ObjectMap.Entry<ScoreboardLine> entry = fastIterator.next();
-            if ( entry.getValue().type == 3 && entry.getValue().fakeName.equals( line ) && entry.getValue().objective.equals( objective ) ) {
+            if( entry.getValue().type == 3 && entry.getValue().fakeName.equals( line ) && entry.getValue().objective.equals( objective ) ) {
                 return entry.getLongKey();
             }
         }
@@ -117,7 +117,7 @@ public class Scoreboard {
         ObjectIterator<Long2ObjectMap.Entry<ScoreboardLine>> fastIterator = fastEntrySet.fastIterator();
         while ( fastIterator.hasNext() ) {
             Long2ObjectMap.Entry<ScoreboardLine> entry = fastIterator.next();
-            if ( entry.getValue().entityId == entity.getId() && entry.getValue().objective.equals( objective ) ) {
+            if( entry.getValue().entityId == entity.getId() && entry.getValue().objective.equals( objective ) ) {
                 return entry.getLongKey();
             }
         }
@@ -161,7 +161,7 @@ public class Scoreboard {
     }
 
     public void showFor( Player player ) {
-        if ( this.viewers.add( player ) ) {
+        if( this.viewers.add( player ) ) {
             // We send display information first
             for ( Map.Entry<DisplaySlot, ScoreboardDisplay> entry : this.displays.entrySet() ) {
                 player.dataPacket( this.constructDisplayPacket( entry.getKey(), entry.getValue() ) );
@@ -173,7 +173,7 @@ public class Scoreboard {
     }
 
     public void hideFor( Player player ) {
-        if ( this.viewers.remove( player ) ) {
+        if( this.viewers.remove( player ) ) {
             // Remove all known scores
             LongList validScoreIDs = new LongArrayList();
 
@@ -215,7 +215,7 @@ public class Scoreboard {
 
     public void updateScore( long scoreId, int score ) {
         ScoreboardLine line = this.scoreboardLines.get( scoreId );
-        if ( line != null ) {
+        if( line != null ) {
             line.setScore( score );
 
             this.broadcast( this.constructSetScore( scoreId, line ) );
@@ -224,7 +224,7 @@ public class Scoreboard {
 
     public void removeScoreEntry( long scoreId ) {
         ScoreboardLine line = this.scoreboardLines.remove( scoreId );
-        if ( line != null ) {
+        if( line != null ) {
             this.broadcast( this.constructRemoveScores( scoreId ) );
         }
     }
@@ -240,7 +240,7 @@ public class Scoreboard {
 
     public int getScore( long scoreId ) {
         ScoreboardLine line = this.scoreboardLines.remove( scoreId );
-        if ( line != null ) {
+        if( line != null ) {
             return line.getScore();
         }
 

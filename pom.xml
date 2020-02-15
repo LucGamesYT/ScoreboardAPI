@@ -35,6 +35,7 @@
     </dependencies>
 
     <build>
+        <finalName>ScoreboardAPI</finalName>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
