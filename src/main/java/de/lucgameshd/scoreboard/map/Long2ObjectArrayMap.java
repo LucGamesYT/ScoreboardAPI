@@ -1,4 +1,4 @@
-package de.theamychan.scoreboard.map;
+package de.lucgameshd.scoreboard.map;
 
 import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.*;

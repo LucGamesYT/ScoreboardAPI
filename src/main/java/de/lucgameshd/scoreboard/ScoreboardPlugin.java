@@ -1,4 +1,4 @@
-package de.theamychan.scoreboard;
+package de.lucgameshd.scoreboard;
 
 import cn.nukkit.plugin.PluginBase;
 

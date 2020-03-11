@@ -1,4 +1,4 @@
-package de.theamychan.scoreboard.network;
+package de.lucgameshd.scoreboard.network;
 
 import cn.nukkit.entity.Entity;
 import lombok.AllArgsConstructor;
