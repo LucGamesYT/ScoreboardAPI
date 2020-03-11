@@ -1,7 +1,7 @@
-package de.theamychan.scoreboard.api;
+package de.lucgameshd.scoreboard.api;
 
-import cn.nukkit.Player;
-import de.theamychan.scoreboard.network.Scoreboard;
+import cn.nukkit.player.Player;
+import de.lucgameshd.scoreboard.network.Scoreboard;
 
 public class ScoreboardAPI {
 

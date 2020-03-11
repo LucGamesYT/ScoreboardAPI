@@ -1,4 +1,4 @@
-package de.theamychan.scoreboard.network;
+package de.lucgameshd.scoreboard.network;
 
 public enum SortOrder {
 

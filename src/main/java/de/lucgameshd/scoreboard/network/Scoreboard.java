@@ -1,12 +1,12 @@
-package de.theamychan.scoreboard.network;
+package de.lucgameshd.scoreboard.network;
 
-import cn.nukkit.Player;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.network.protocol.DataPacket;
-import de.theamychan.scoreboard.map.Long2ObjectArrayMap;
-import de.theamychan.scoreboard.network.packet.RemoveObjectivePacket;
-import de.theamychan.scoreboard.network.packet.SetObjectivePacket;
-import de.theamychan.scoreboard.network.packet.SetScorePacket;
+import cn.nukkit.player.Player;
+import de.lucgameshd.scoreboard.map.Long2ObjectArrayMap;
+import de.lucgameshd.scoreboard.network.packet.RemoveObjectivePacket;
+import de.lucgameshd.scoreboard.network.packet.SetObjectivePacket;
+import de.lucgameshd.scoreboard.network.packet.SetScorePacket;
 import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import lombok.AllArgsConstructor;
@@ -117,14 +117,14 @@ public class Scoreboard {
         ObjectIterator<Long2ObjectMap.Entry<ScoreboardLine>> fastIterator = fastEntrySet.fastIterator();
         while ( fastIterator.hasNext() ) {
             Long2ObjectMap.Entry<ScoreboardLine> entry = fastIterator.next();
-            if( entry.getValue().entityId == entity.getId() && entry.getValue().objective.equals( objective ) ) {
+            if( entry.getValue().entityId == entity.getUniqueId() && entry.getValue().objective.equals( objective ) ) {
                 return entry.getLongKey();
             }
         }
 
         // Add this score
         long newId = this.scoreIdCounter++;
-        ScoreboardLine scoreboardLine = new ScoreboardLine( (byte) ( ( entity instanceof Player ) ? 1 : 2 ), entity.getId(), "", objective, score );
+        ScoreboardLine scoreboardLine = new ScoreboardLine( (byte) ( ( entity instanceof Player ) ? 1 : 2 ), entity.getUniqueId(), "", objective, score );
         this.scoreboardLines.put( newId, scoreboardLine );
 
         // Broadcast entry
