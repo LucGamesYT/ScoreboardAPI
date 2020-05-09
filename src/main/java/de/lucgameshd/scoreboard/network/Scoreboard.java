@@ -1,8 +1,8 @@
 package de.lucgameshd.scoreboard.network;
 
 import cn.nukkit.entity.Entity;
-import cn.nukkit.network.protocol.DataPacket;
 import cn.nukkit.player.Player;
+import com.nukkitx.protocol.bedrock.BedrockPacket;
 import de.lucgameshd.scoreboard.map.Long2ObjectArrayMap;
 import de.lucgameshd.scoreboard.network.packet.RemoveObjectivePacket;
 import de.lucgameshd.scoreboard.network.packet.SetObjectivePacket;
@@ -74,19 +74,13 @@ public class Scoreboard {
         }
     }
 
-    private DataPacket constructDisplayPacket( DisplaySlot slot, ScoreboardDisplay display ) {
-        SetObjectivePacket packetSetObjective = new SetObjectivePacket();
-        packetSetObjective.setCriteriaName( "dummy" );
-        packetSetObjective.setDisplayName( display.getDisplayName() );
-        packetSetObjective.setObjectiveName( display.getObjectiveName() );
-        packetSetObjective.setDisplaySlot( slot.name().toLowerCase() );
-        packetSetObjective.setSortOrder( display.getSortOrder().ordinal() );
-        return packetSetObjective;
+    private BedrockPacket constructDisplayPacket( DisplaySlot slot, ScoreboardDisplay display ) {
+        return new SetObjectivePacket( slot.name().toLowerCase(), display.getObjectiveName(), display.getDisplayName(), "dummy", display.getSortOrder().ordinal() );
     }
 
-    private void broadcast( DataPacket packet ) {
+    private void broadcast( BedrockPacket packet ) {
         for ( Player viewer : this.viewers ) {
-            viewer.dataPacket( packet );
+            viewer.sendPacket( packet );
         }
     }
 
@@ -133,21 +127,13 @@ public class Scoreboard {
         return newId;
     }
 
-    private DataPacket constructSetScore( long newId, ScoreboardLine line ) {
-        SetScorePacket setScorePacket = new SetScorePacket();
-        setScorePacket.setType( (byte) 0 );
-
-        setScorePacket.setEntries( new ArrayList<SetScorePacket.ScoreEntry>() {{
+    private BedrockPacket constructSetScore( long newId, ScoreboardLine line ) {
+        return new SetScorePacket( (byte) 0, new ArrayList<SetScorePacket.ScoreEntry>() {{
             add( new SetScorePacket.ScoreEntry( newId, line.objective, line.score, line.type, line.fakeName, line.entityId ) );
         }} );
-
-        return setScorePacket;
     }
 
-    private DataPacket constructSetScore() {
-        SetScorePacket setScorePacket = new SetScorePacket();
-        setScorePacket.setType( (byte) 0 );
-
+    private BedrockPacket constructSetScore() {
         List<SetScorePacket.ScoreEntry> entries = new ArrayList<>();
         Long2ObjectMap.FastEntrySet<ScoreboardLine> fastEntrySet = (Long2ObjectMap.FastEntrySet<ScoreboardLine>) this.scoreboardLines.long2ObjectEntrySet();
         ObjectIterator<Long2ObjectMap.Entry<ScoreboardLine>> fastIterator = fastEntrySet.fastIterator();
@@ -155,20 +141,18 @@ public class Scoreboard {
             Long2ObjectMap.Entry<ScoreboardLine> entry = fastIterator.next();
             entries.add( new SetScorePacket.ScoreEntry( entry.getLongKey(), entry.getValue().objective, entry.getValue().score, entry.getValue().type, entry.getValue().fakeName, entry.getValue().entityId ) );
         }
-
-        setScorePacket.setEntries( entries );
-        return setScorePacket;
+        return new SetScorePacket( (byte) 0, entries );
     }
 
     public void showFor( Player player ) {
         if( this.viewers.add( player ) ) {
             // We send display information first
             for ( Map.Entry<DisplaySlot, ScoreboardDisplay> entry : this.displays.entrySet() ) {
-                player.dataPacket( this.constructDisplayPacket( entry.getKey(), entry.getValue() ) );
+                player.sendPacket( this.constructDisplayPacket( entry.getKey(), entry.getValue() ) );
             }
 
             // Send scores
-            player.dataPacket( this.constructSetScore() );
+            player.sendPacket( this.constructSetScore() );
         }
     }
 
@@ -185,32 +169,25 @@ public class Scoreboard {
             }
 
             // Remove all scores
-            player.dataPacket( this.constructRemoveScores( validScoreIDs ) );
+            player.sendPacket( this.constructRemoveScores( validScoreIDs ) );
 
             // Remove all known displays
             for ( Map.Entry<DisplaySlot, ScoreboardDisplay> entry : this.displays.entrySet() ) {
-                player.dataPacket( this.constructRemoveDisplayPacket( entry.getValue() ) );
+                player.sendPacket( this.constructRemoveDisplayPacket( entry.getValue() ) );
             }
         }
     }
 
-    private DataPacket constructRemoveScores( LongList scoreIDs ) {
-        SetScorePacket setScorePacket = new SetScorePacket();
-        setScorePacket.setType( (byte) 1 );
-
+    private BedrockPacket constructRemoveScores( LongList scoreIDs ) {
         List<SetScorePacket.ScoreEntry> entries = new ArrayList<>();
         for ( long scoreID : scoreIDs ) {
             entries.add( new SetScorePacket.ScoreEntry( scoreID, "", 0 ) );
         }
-
-        setScorePacket.setEntries( entries );
-        return setScorePacket;
+        return new SetScorePacket( (byte) 1, entries );
     }
 
-    private DataPacket constructRemoveDisplayPacket( ScoreboardDisplay display ) {
-        RemoveObjectivePacket removeObjectivePacket = new RemoveObjectivePacket();
-        removeObjectivePacket.setObjectiveName( display.getObjectiveName() );
-        return removeObjectivePacket;
+    private BedrockPacket constructRemoveDisplayPacket( ScoreboardDisplay display ) {
+        return new RemoveObjectivePacket( display.getObjectiveName() );
     }
 
     public void updateScore( long scoreId, int score ) {
@@ -229,13 +206,10 @@ public class Scoreboard {
         }
     }
 
-    private DataPacket constructRemoveScores( long scoreId ) {
-        SetScorePacket setScorePacket = new SetScorePacket();
-        setScorePacket.setType( (byte) 1 );
-        setScorePacket.setEntries( new ArrayList<SetScorePacket.ScoreEntry>() {{
+    private BedrockPacket constructRemoveScores( long scoreId ) {
+        return new SetScorePacket( (byte) 1, new ArrayList<SetScorePacket.ScoreEntry>() {{
             add( new SetScorePacket.ScoreEntry( scoreId, "", 0 ) );
         }} );
-        return setScorePacket;
     }
 
     public int getScore( long scoreId ) {

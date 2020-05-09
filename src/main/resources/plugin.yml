@@ -1,5 +1,6 @@
-main: de.lucgameshd.scoreboard.ScoreboardPlugin
 name: ScoreboardPlugin
+main: de.lucgameshd.scoreboard.ScoreboardPlugin
+description: This is a simple scoreboard api plugin!
 version: 2.0.0
 author: LucGamesHD
 api: ["2.0.0"]

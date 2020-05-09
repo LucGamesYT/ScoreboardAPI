@@ -1,52 +1,33 @@
 package de.lucgameshd.scoreboard.network.packet;
 
-import cn.nukkit.network.protocol.DataPacket;
-import cn.nukkit.network.protocol.ProtocolInfo;
-import cn.nukkit.utils.Binary;
-import io.netty.buffer.ByteBuf;
+import com.nukkitx.protocol.bedrock.data.ScoreInfo;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Data
-public class SetScorePacket extends DataPacket {
 
-    private byte type;
-    private List<SetScorePacket.ScoreEntry> entries;
+public class SetScorePacket extends com.nukkitx.protocol.bedrock.packet.SetScorePacket {
 
-    @Override
-    public short pid() {
-        return 0x6c;
-    }
+    public byte type;
+    public List<SetScorePacket.ScoreEntry> entries;
 
-    @Override
-    protected void decode( ByteBuf byteBuf ) {
-        //ignore
-    }
+    public SetScorePacket( byte type, List<ScoreEntry> scoreEntry ) {
+        this.type = type;
+        this.entries = scoreEntry;
 
-    @Override
-    protected void encode( ByteBuf byteBuf ) {
-        byteBuf.writeByte( this.type );
-        Binary.writeUnsignedVarInt( byteBuf, this.entries.size() );
-        for(ScoreEntry entry : this.entries){
-            Binary.writeVarLong( byteBuf, entry.scoreId );
-            Binary.writeString( byteBuf, entry.objective );
-            byteBuf.writeIntLE( entry.score );
+        // 0 =
 
-            if(this.type == 0){
-                byteBuf.writeByte( entry.entityType );
+        this.setAction( type == 0 ? Action.SET : Action.REMOVE );
 
-                switch ( entry.entityType ) {
-                    case 3:
-                        Binary.writeString( byteBuf, entry.fakeEntity );
-                        break;
-                    case 1:
-                    case 2:
-                        Binary.writeUnsignedVarLong( byteBuf, entry.entityId );
-                        break;
-                }
-            }
+        List<ScoreInfo> scoreInfos = new ArrayList<>();
+        for ( ScoreEntry entries : entries ) {
+            System.out.println( "TYPE: " + type + " -> " + entries.toString() );
+            scoreInfos.add( new ScoreInfo( entries.scoreId, entries.objective, entries.score, ScoreInfo.ScorerType.ENTITY , entries.entityId ) );
         }
+
+        this.setInfos( scoreInfos );
+
     }
 
     @Getter
