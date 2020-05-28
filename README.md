@@ -16,7 +16,7 @@ I release the ScoreboardAPI for Nukkit 2.0! The old version of the ScoreboardAPI
 <dependency>
     <groupId>de.lucgameshd</groupId>
     <artifactId>ScoreboardAPI</artifactId>
-    <version>2.0</version>
+    <version>2.1</version>
 </dependency>
 ```
 
