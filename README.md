@@ -1,6 +1,10 @@
 # ScoreboardAPI
 I release the ScoreboardAPI for Nukkit 2.0! The old version of the ScoreboardAPI for nukkit 1.0+ is only available on GitHub.
 
+To use the Scoreboard API for Nukkit 1.0 please use this version
+
+--> https://github.com/LucGamesYT/ScoreboardAPI/releases/tag/1.0.0
+
 ## Repository:
 
 ```xml
