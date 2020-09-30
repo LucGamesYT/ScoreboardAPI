@@ -16,6 +16,16 @@ To use the Scoreboard API for Nukkit 1.0 please use this version
 ```
 ## Dependency:
 
+Nukkit 1.0:
+```xml
+<dependency>
+    <groupId>de.lucgameshd</groupId>
+    <artifactId>ScoreboardAPI</artifactId>
+    <version>1.4</version>
+</dependency>
+```
+
+Nukkit 2.0
 ```xml
 <dependency>
     <groupId>de.lucgameshd</groupId>
