@@ -1,6 +1,6 @@
 package de.lucgameshd.scoreboard.api;
 
-import cn.nukkit.player.Player;
+import cn.nukkit.Player;
 import de.lucgameshd.scoreboard.network.Scoreboard;
 
 public class ScoreboardAPI {
