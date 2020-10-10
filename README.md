@@ -9,8 +9,8 @@ To use the Scoreboard API for Nukkit 1.0 please use this version
 
 ```xml
 <repository>
-    <id>releases</id>
-    <url>http://lucgameshd.de:8081/content/repositories/releases</url>
+    <id>public</id>
+    <url>http://repo.lucgameshd.de/repository/maven-public</url>
 </repository>
 
 ```
